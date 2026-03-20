@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Watch PH | Track Case</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">Citizen Watch PH</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="report.html">File Report</a></li>
+                <li><a href="track.html" class="active">Track Case</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="form-card text-center">
+            <h2>Track Your Case</h2>
+            <p>Enter the Case ID provided to you upon submission.</p>
+            
+            <div class="search-box">
+                <input type="text" id="trackingId" placeholder="e.g., CWPH-A1B2C3" class="input-large">
+                <button onclick="trackCase()" class="btn btn-primary mt-1">Check Status</button>
+            </div>
+
+            <div id="trackingResult" class="hidden tracking-result">
+                <h3>Status Update</h3>
+                <div class="status-badge" id="statusBadge">Under Review</div>
+                <p id="statusDescription" class="mt-1">Your report has been received and is currently being reviewed by our verification team.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
