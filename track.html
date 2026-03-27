@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Watch PH | Track Status</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="public.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <span class="brand-title">Citizen Watch</span>
+                <span class="brand-subtitle">Puerto Princesa City Initiative</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="report.html">File Report</a></li>
+                <li><a href="track.html" class="active">Track Status</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <div class="ui-card">
+            <div class="page-header">
+                <h1>Track Your Case</h1>
+                <p>Enter your unique Tracking ID to view real-time updates from the review committee.</p>
+            </div>
+            
+            <div style="display: flex; gap: 12px; margin-bottom: 32px;">
+                <input type="text" id="trackingId" class="form-control" placeholder="e.g., CWPH-A1B2C" style="font-size: 1.25rem; text-align: center; font-weight: 600; letter-spacing: 0.05em;">
+                <button onclick="trackCase()" class="btn btn-primary" style="white-space: nowrap;">Check Status</button>
+            </div>
+
+            <div id="trackingResult" class="hidden" style="text-align: center; padding-top: 24px; border-top: 1px solid var(--border-light);">
+                <h3 style="color: var(--text-muted); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">Current LGU Status</h3>
+                
+                <div class="status-pill status-review" id="statusBadge">Under Review</div>
+                
+                <p id="statusDescription" style="color: var(--text-heading); max-width: 400px; margin: 0 auto; line-height: 1.5;">
+                    Your report has been received and routed to the appropriate compliance officer for verification.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Citizen Watch PH. Designed for The Citizens of Puerto Princesa City.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
