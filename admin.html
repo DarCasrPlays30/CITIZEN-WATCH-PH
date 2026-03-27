@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Watch PH | LGU Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h1>Citizen Watch PH</h1>
+                <div class="subtitle">LGU Command Center</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active">Overview Dashboard</a>
+                <a href="#">Incident Reports</a>
+                <a href="#">Citizen Engagement</a>
+                <a href="#">Procurement Audits</a>
+                <a href="#">Agency Settings</a>
+                <div style="margin-top: 40px; padding: 0 24px;">
+                    <p style="font-size: 0.75rem; color: #64748b;">Public View</p>
+                </div>
+                <a href="index.html">← Back to Public Portal</a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="dashboard-header">
+                <div>
+                    <h2>Command Center: Puerto Princesa</h2>
+                    <p>Real-time civic reporting and transparency metrics.</p>
+                </div>
+                <div>
+                    <span style="background: #e2e8f0; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.875rem; color: #0f172a;">
+                        Sector Focus: Barangay Tagburos
+                    </span>
+                </div>
+            </header>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Total Active Reports</div>
+                    <div class="kpi-value">142</div>
+                    <div class="kpi-trend trend-up">↑ 12% vs last month</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Pending Verification</div>
+                    <div class="kpi-value">28</div>
+                    <div class="kpi-trend trend-down">↓ 5 cleared today</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Critical Anomalies</div>
+                    <div class="kpi-value">4</div>
+                    <div class="kpi-trend trend-up" style="color: #ef4444;">Requires Immediate Action</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Citizen Resolution Rate</div>
+                    <div class="kpi-value">84%</div>
+                    <div class="kpi-trend" style="color: #64748b;">Community Trust Metric</div>
+                </div>
+            </div>
+
+            <section class="data-section">
+                <div class="data-section-header">
+                    <h3>Recent Anomalies Filed</h3>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="gov-table">
+                        <thead>
+                            <tr>
+                                <th>Tracking ID</th>
+                                <th>Date Filed</th>
+                                <th>Location / Department</th>
+                                <th>Anomaly Type & System Flags</th>
+                                <th>Current Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #fff1f2;">
+                                <td><strong>CWPH-8X9Y</strong></td>
+                                <td>Mar 27, 2026</td>
+                                <td>Brgy. Tagburos Hall</td>
+                                <td>
+                                    <strong style="color: #0f172a;">Social Amelioration / Ghost Beneficiaries</strong>
+                                    <div style="margin-top: 6px;">
+                                        <span style="display: inline-block; font-size: 0.7rem; font-weight: 600; background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; border: 1px solid #f87171;">
+                                            ⚠️ LCR Flag: Citizen marked deceased (Oct 2025)
+                                        </span>
+                                    </div>
+                                </td>
+                                <td><span class="status-pill status-new">Awaiting Triage</span></td>
+                                <td><button class="btn-action" style="background: #ef4444; color: white; border-color: #ef4444;">Freeze Payout</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CWPH-3A4B</strong></td>
+                                <td>Mar 25, 2026</td>
+                                <td>City Engineering Office</td>
+                                <td><strong style="color: #0f172a;">Procurement Fraud</strong></td>
+                                <td><span class="status-pill status-progress">Under Investigation</span></td>
+                                <td><button class="btn-action">Update Log</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CWPH-9K2L</strong></td>
+                                <td>Mar 22, 2026</td>
+                                <td>Business Permits Dept.</td>
+                                <td><strong style="color: #0f172a;">Fixer Activity</strong></td>
+                                <td><span class="status-pill status-progress">Under Investigation</span></td>
+                                <td><button class="btn-action">Update Log</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CWPH-1C2D</strong></td>
+                                <td>Mar 18, 2026</td>
+                                <td>Traffic Management Unit</td>
+                                <td><strong style="color: #0f172a;">Bribery / Extortion</strong></td>
+                                <td><span class="status-pill status-resolved">Case Closed</span></td>
+                                <td><button class="btn-action">View Archive</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+    </div>
+</body>
+</html>
