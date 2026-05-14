@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Watch PH | File Report</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="public.css">
+    <style>
+        body { margin: 0; background-color: #f1f5f9; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+        .main-content { padding: 60px 20px; display: flex; justify-content: center; align-items: flex-start; flex: 1; }
+        .form-card { background: white; width: 100%; max-width: 600px; border-radius: 12px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .hidden { display: none !important; }
+
+        /* GOVPH Footer Styling */
+        .gov-footer-container { background-color: #f8fafc; border-top: 4px solid #2d3192; padding: 60px 5%; color: #334155; font-family: 'Inter', sans-serif; text-align: left; margin-top: auto; }
+        .gov-footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .gov-footer-grid h4 { font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .gov-footer-grid p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px; color: #475569; }
+        .gov-footer-grid ul { list-style: none; padding: 0; margin: 0; }
+        .gov-footer-grid ul li { margin-bottom: 12px; }
+        .gov-footer-grid ul li a { color: #2d3192; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+        .gov-footer-grid ul li a:hover { text-decoration: underline; color: #1e226e; }
+    </style>
+</head>
+<body>
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: white; border-bottom: 1px solid #e2e8f0;">
+        <a href="index.html" style="text-decoration: none; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; cursor: pointer;">
+            <img src="logo.png" alt="Citizen Watch Logo" style="height: 60px; width: auto; object-fit: contain;">
+            <span style="font-size: 0.7rem; color: #f97316; font-weight: 700; letter-spacing: 1px; padding-left: 2px;">BARANGAY SICSICAN INITIATIVE</span>
+        </a>
+        <nav style="display: flex; gap: 24px; align-items: center;">
+            <a href="index.html" style="text-decoration: none; color: #475569; font-weight: 500; font-size: 0.9rem;">Home</a>
+            <a href="report.html" style="text-decoration: none; color: #f97316; font-weight: 600; font-size: 0.9rem; background: rgba(249, 115, 22, 0.1); padding: 8px 16px; border-radius: 6px;">File Report</a>
+            <a href="track.html" style="text-decoration: none; color: #475569; font-weight: 500; font-size: 0.9rem;">Track Status</a>
+            <a href="admin.html" style="text-decoration: none; color: #475569; font-weight: 500; font-size: 0.9rem;">LGU Login</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="form-card">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <h2 style="font-size: 1.5rem; margin-bottom: 8px; color: #0f172a;">Confidential Report Form</h2>
+                <p style="color: #64748b; font-size: 0.9rem;">Provide details about the incident to initiate an official review.</p>
+            </div>
+            <form id="reportForm" onsubmit="submitReport(event)">
+                <div style="margin-bottom: 20px;">
+                    <label for="incidentType" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.85rem; color: #334155;">Category of Anomaly</label>
+                    <select id="incidentType" required style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.95rem;">
+                        <option value="" disabled selected>Select category...</option>
+                        <option value="deceased">Social Amelioration / Ghost Beneficiaries</option>
+                        <option value="procurement">Procurement Fraud</option>
+                        <option value="bribery">Bribery / Extortion</option>
+                        <option value="fixer">Fixer Activity</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="location" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.85rem; color: #334155;">Specific Location / Purok</label>
+                    <input type="text" id="location" required placeholder="e.g., Purok Manga, Brgy. Sicsican" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="description" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.85rem; color: #334155;">Incident Description</label>
+                    <textarea id="description" required placeholder="Please describe exactly what happened, when it occurred, and who was involved..." rows="4" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box; resize: vertical;"></textarea>
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.85rem; color: #334155;">Supporting Evidence (Optional)</label>
+                    <input type="file" style="width: 100%; padding: 10px; border: 1px dashed #cbd5e1; border-radius: 6px; background: #f8fafc; font-size: 0.85rem; font-family: inherit;">
+                    <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 6px; margin-bottom: 0;">Accepted formats: JPG, PNG, PDF (Max 5MB)</p>
+                </div>
+                <button type="submit" style="width: 100%; padding: 14px; background: #f97316; color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.2s;">Submit Official Report</button>
+            </form>
+
+            <div id="successMessage" class="hidden" style="text-align: center; padding: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 16px;">✅</div>
+                <h3 style="margin-bottom: 8px; color: #0f172a;">Report Submitted Successfully</h3>
+                <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 24px;">Your secure Tracking ID is generated below. Save this ID. It is the only way to track your case.</p>
+                <div style="background: #f1f5f9; padding: 16px; border-radius: 8px; font-size: 1.5rem; font-weight: 700; color: #0f172a; letter-spacing: 2px; margin-bottom: 24px;"><span id="generatedCaseId">CWPH-XXXX-XXXX</span></div>
+                <button onclick="window.location.reload()" style="background: white; border: 1px solid #cbd5e1; color: #475569; padding: 10px 20px; border-radius: 6px; font-weight: 500; cursor: pointer;">Submit Another Report</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Official GOVPH Footer -->
+    <footer class="gov-footer-container">
+        <div class="gov-footer-grid">
+            <div>
+                <h4>REPUBLIC OF THE PHILIPPINES</h4>
+                <p>All content is in the public domain unless otherwise stated.</p>
+                <p style="margin-top: 24px; font-size: 0.8rem; color: #64748b;">&copy; 2026 Citizen Watch PH. Barangay Sicsican Initiative.</p>
+            </div>
+            <div>
+                <h4>ABOUT GOVPH</h4>
+                <p>Learn more about the Philippine government, its structure, how government works and the people behind it.</p>
+                <ul>
+                    <li><a href="https://www.gov.ph/" target="_blank" rel="noopener noreferrer">GOV.PH</a></li>
+                    <li><a href="https://data.gov.ph/" target="_blank" rel="noopener noreferrer">Open Data Portal</a></li>
+                    <li><a href="https://www.officialgazette.gov.ph/" target="_blank" rel="noopener noreferrer">Official Gazette</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>GOVERNMENT LINKS</h4>
+                <ul>
+                    <li><a href="https://op-proper.gov.ph/" target="_blank" rel="noopener noreferrer">Office of the President</a></li>
+                    <li><a href="https://ovp.gov.ph/" target="_blank" rel="noopener noreferrer">Office of the Vice President</a></li>
+                    <li><a href="https://legacy.senate.gov.ph/" target="_blank" rel="noopener noreferrer">Senate of the Philippines</a></li>
+                    <li><a href="https://www.congress.gov.ph/" target="_blank" rel="noopener noreferrer">House of Representatives</a></li>
+                    <li><a href="https://sc.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer">Supreme Court</a></li>
+                    <li><a href="https://ca.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer">Court of Appeals</a></li>
+                    <li><a href="https://sb.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer">Sandiganbayan</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

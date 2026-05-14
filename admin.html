@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Watch PH | LGU Command Center</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 600px; border-radius: 12px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 16px; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b; }
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .data-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+        .data-value { font-size: 1rem; color: #0f172a; font-weight: 500; margin-top: 4px; }
+        .desc-box { background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; color: #334155; line-height: 1.6; }
+        .hidden { display: none !important; }
+
+        .login-gateway { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #0f172a; display: flex; justify-content: center; align-items: center; z-index: 9999; }
+        .login-card { background: white; padding: 40px; border-radius: 12px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .login-card h2 { margin: 0 0 8px 0; color: #0f172a; font-weight: 800; font-size: 1.5rem; }
+        .login-card p { color: #64748b; font-size: 0.9rem; margin-bottom: 24px; }
+        .login-input { width: 100%; padding: 12px; margin-bottom: 16px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 0.95rem; }
+        .login-btn { width: 100%; padding: 12px; background: #f97316; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: 0.2s; margin-bottom: 16px; }
+        .error-msg { color: #ef4444; font-size: 0.85rem; margin-bottom: 16px; display: none; font-weight: 500; background: #fee2e2; padding: 8px; border-radius: 4px; }
+
+        /* GOVPH Footer Styling */
+        .gov-footer-container { background-color: #f8fafc; border-top: 4px solid #2d3192; padding: 60px 5%; color: #334155; font-family: 'Inter', sans-serif; text-align: left; margin-top: 60px; }
+        .gov-footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .gov-footer-grid h4 { font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .gov-footer-grid p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px; color: #475569; }
+        .gov-footer-grid ul { list-style: none; padding: 0; margin: 0; }
+        .gov-footer-grid ul li { margin-bottom: 12px; }
+        .gov-footer-grid ul li a { color: #2d3192; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+        .gov-footer-grid ul li a:hover { text-decoration: underline; color: #1e226e; }
+    </style>
+</head>
+<body>
+    <div id="adminLoginScreen" class="login-gateway">
+        <div class="login-card">
+            <img src="logo.png" alt="Logo" style="height: 80px; margin-bottom: 16px; object-fit: contain;">
+            <h2>Authorized Access</h2>
+            <p>LGU Command Center • Brgy. Sicsican</p>
+            <div id="loginError" class="error-msg">⚠️ Invalid Username or Password</div>
+            <input type="text" id="adminUser" class="login-input" placeholder="LGU Officer ID (Try: admin)">
+            <input type="password" id="adminPass" class="login-input" placeholder="Password (Try: admin123)" onkeypress="if(event.key === 'Enter') attemptLogin()">
+            <button onclick="attemptLogin()" class="login-btn">Secure Login</button>
+            <a href="index.html" style="color: #64748b; font-size: 0.85rem; text-decoration: none;">← Return to Public Portal</a>
+        </div>
+    </div>
+
+    <div id="adminDashboardLayout" class="admin-layout hidden">
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 30px; text-align: center;">
+                <img src="logo.png" alt="Logo" style="height: 60px; width: auto; object-fit: contain;">
+                <div class="subtitle" style="font-size: 0.65rem; color: #94a3b8; font-weight: 600; letter-spacing: 1px;">LGU COMMAND CENTER</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="switchView('dashboardView', this)">Overview Dashboard</a>
+                <a href="#" class="nav-item" onclick="switchView('analyticsView', this)">Live Visual Analytics</a>
+                <a href="#" class="nav-item" onclick="switchView('reportsView', this)">Incident Reports</a>
+                <div style="margin-top: 40px; padding: 0 24px;"><p style="font-size: 0.75rem; color: #64748b;">Session</p></div>
+                <a href="#" onclick="adminLogout()" style="display: block; padding: 12px 24px; color: #ef4444; text-decoration: none; font-size: 0.875rem; font-weight: 600;">🚪 Secure Log Out</a>
+                <a href="index.html" style="display: block; padding: 12px 24px; color: #64748b; text-decoration: none; font-size: 0.875rem; transition: 0.2s;">← Back to Public Portal</a>
+            </nav>
+        </aside>
+
+        <main class="admin-main" style="display: flex; flex-direction: column;">
+            <div style="flex: 1;">
+                <div id="dashboardView" class="view-section">
+                    <header class="dashboard-header">
+                        <div><h2>Command Center: Barangay Sicsican</h2><p>Real-time civic reporting and transparency metrics.</p></div>
+                    </header>
+                    <div class="kpi-grid">
+                        <div class="kpi-card"><div class="kpi-title">Total Active Reports</div><div class="kpi-value" id="kpi-active">0</div></div>
+                        <div class="kpi-card"><div class="kpi-title">Pending Verification</div><div class="kpi-value" id="kpi-pending">0</div></div>
+                        <div class="kpi-card"><div class="kpi-title">Critical Anomalies</div><div class="kpi-value" id="kpi-critical" style="color: #ef4444;">0</div></div>
+                        <div class="kpi-card"><div class="kpi-title">Citizen Resolution Rate</div><div class="kpi-value" id="kpi-resolution">0%</div></div>
+                    </div>
+                    <section class="data-section">
+                        <div class="data-section-header">
+                            <h3 style="margin:0;">Recent Anomalies Filed</h3>
+                            <p style="font-size:0.8rem; color:#64748b; margin-top:4px;">Click any row to view full incident description.</p>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table class="gov-table">
+                                <thead><tr><th>Tracking ID</th><th>Date Filed</th><th>Location / Department</th><th>Anomaly Type & Flags</th><th>Current Status</th><th>Action</th></tr></thead>
+                                <tbody id="adminTableBody"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <div id="analyticsView" class="view-section hidden">
+                    <header class="dashboard-header"><div><h2>Live Visual Analytics</h2></div></header>
+                    <div class="data-section" style="padding: 40px; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <div style="width: 100%; max-width: 500px;"><canvas id="anomalyChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div id="reportsView" class="view-section hidden">
+                    <header class="dashboard-header">
+                        <div><h2>Full Incident Database</h2></div>
+                        <div style="display: flex; gap: 12px;">
+                            <input type="text" id="dbSearch" placeholder="Search Tracking ID..." onkeyup="filterDatabase()" style="padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                            <select id="dbStatusFilter" onchange="filterDatabase()" style="padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                                <option value="all">All Statuses</option><option value="new">Awaiting Triage</option><option value="investigating">Under Investigation</option><option value="resolved">Case Closed</option>
+                            </select>
+                            <button onclick="exportToCSV()" style="background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">↓ Export CSV</button>
+                        </div>
+                    </header>
+                    <section class="data-section">
+                        <table class="gov-table">
+                            <thead><tr><th>Tracking ID</th><th>Date Filed</th><th>Category</th><th>Location</th><th>Status</th></tr></thead>
+                            <tbody id="databaseTableBody"></tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Official GOVPH Footer -->
+            <footer class="gov-footer-container">
+                <div class="gov-footer-grid">
+                    <div>
+                        <h4>REPUBLIC OF THE PHILIPPINES</h4>
+                        <p>All content is in the public domain unless otherwise stated.</p>
+                        <p style="margin-top: 24px; font-size: 0.8rem; color: #64748b;">&copy; 2026 Citizen Watch PH. Barangay Sicsican Initiative.</p>
+                    </div>
+                    <div>
+                        <h4>ABOUT GOVPH</h4>
+                        <p>Learn more about the Philippine government, its structure, how government works and the people behind it.</p>
+                        <ul>
+                            <li><a href="https://www.gov.ph/" target="_blank" rel="noopener noreferrer">GOV.PH</a></li>
+                            <li><a href="https://data.gov.ph/" target="_blank" rel="noopener noreferrer">Open Data Portal</a></li>
+                            <li><a href="https://www.officialgazette.gov.ph/" target="_blank" rel="noopener noreferrer">Official Gazette</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>GOVERNMENT LINKS</h4>
+                        <ul>
+                            <li><a href="https://op-proper.gov.ph/" target="_blank" rel="noopener noreferrer">Office of the President</a></li>
+                            <li><a href="https://ovp.gov.ph/" target="_blank" rel="noopener noreferrer">Office of the Vice President</a></li>
+                            <li><a href="https://legacy.senate.gov.ph/" target="_blank" rel="noopener noreferrer">Senate of the Philippines</a></li>
+                            <li><a href="https://www.congress.gov.ph/" target="_blank" rel="noopener noreferrer">House of Representatives</a></li>
+                            <li><a href="https://sc.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer">Supreme Court</a></li>
+                            <li><a href="https://ca.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer">Court of Appeals</a></li>
+                            <li><a href="https://sb.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer">Sandiganbayan</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="caseModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h2 style="font-size: 1.25rem; margin: 0;">Case File: <span id="modal-id" style="color: #f97316;"></span></h2><button class="modal-close" onclick="closeModal()">×</button></div>
+            <div class="data-grid">
+                <div><div class="data-label">Category</div><div class="data-value" id="modal-type"></div></div>
+                <div><div class="data-label">Date</div><div class="data-value" id="modal-date"></div></div>
+                <div style="grid-column: span 2;"><div class="data-label">Location</div><div class="data-value" id="modal-location"></div></div>
+            </div>
+            <div class="data-label" style="margin-bottom: 8px;">Description</div>
+            <div class="desc-box" id="modal-description"></div>
+            <div style="margin-top: 24px; text-align: right;"><button onclick="closeModal()" style="background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Close</button></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
