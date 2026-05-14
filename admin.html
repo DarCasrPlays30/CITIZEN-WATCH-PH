@@ -41,7 +41,8 @@
 <body>
     <div id="adminLoginScreen" class="login-gateway">
         <div class="login-card">
-            <img src="logo.png" alt="Logo" style="height: 80px; margin-bottom: 16px; object-fit: contain;">
+            <!-- Increased size to 120px and reduced padding for the login screen -->
+            <img src="logo.png" alt="Logo" style="height: 120px; width: 120px; object-fit: contain; background-color: white; border-radius: 50%; padding: 4px; margin-bottom: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
             <h2>Authorized Access</h2>
             <p>LGU Command Center • Brgy. Sicsican</p>
             <div id="loginError" class="error-msg">⚠️ Invalid Username or Password</div>
@@ -54,9 +55,10 @@
 
     <div id="adminDashboardLayout" class="admin-layout hidden">
         <aside class="sidebar">
-            <div class="sidebar-brand" style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 30px; text-align: center;">
-                <img src="logo.png" alt="Logo" style="height: 60px; width: auto; object-fit: contain;">
-                <div class="subtitle" style="font-size: 0.65rem; color: #94a3b8; font-weight: 600; letter-spacing: 1px;">LGU COMMAND CENTER</div>
+            <div class="sidebar-brand" style="display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 30px; text-align: center;">
+                <!-- Increased size to 100px and reduced padding for the sidebar -->
+                <img src="logo.png" alt="Logo" style="height: 100px; width: 100px; object-fit: contain; background-color: white; border-radius: 50%; padding: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                <div class="subtitle" style="font-size: 0.75rem; color: #94a3b8; font-weight: 600; letter-spacing: 1px;">LGU COMMAND CENTER</div>
             </div>
             <nav class="sidebar-nav">
                 <a href="#" class="nav-item active" onclick="switchView('dashboardView', this)">Overview Dashboard</a>
